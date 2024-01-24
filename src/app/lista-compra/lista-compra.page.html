@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{titulo+'('+mercantil+')'}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment value="items" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="items">
+        <ion-label>Items</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="carrinho">
+        <ion-label>Carrinho</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true">
+  <div *ngIf="segment == 'items'">
+    <ion-list *ngIf="prods">
+      <ion-item-sliding *ngFor="let item of prods">
+        <ion-item #item class="slide-in">
+          <ion-label>{{item.nome_prod}}</ion-label>
+          <ion-radio slot="start" (click)="select(item.idlistaprod,'SIM')" value="item.idlistaprod"></ion-radio>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option color="success" (click)="push(item.idlistaprod,'SIM')"><ion-icon name="checkmark"></ion-icon></ion-item-option>
+        </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option (click)="edit(item.idlistaprod)"><ion-icon name="pencil"></ion-icon></ion-item-option>
+          <ion-item-option color="danger" (click)="push(item.idlistaprod, 'NÃO')"><ion-icon name="trash"></ion-icon></ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    
+  </div>
+  <div *ngIf="segment == 'carrinho'">
+    <ion-list *ngIf="prodsCart">
+      <ion-item-sliding *ngFor="let itemc of prodsCart">
+        <ion-item #item class="slide-in">
+          <ion-label>{{itemc.nome_prod}}</ion-label>
+          <ion-radio slot="start" (click)="select(itemc.idlistaprod,'NÃO')" value="itemc.idlistaprod"></ion-radio>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option color="success" (click)="push(itemc.idlistaprod, 'SIM')"><ion-icon name="checkmark"></ion-icon></ion-item-option>
+        </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option (click)="edit(itemc.idlistaprod)"><ion-icon name="pencil"></ion-icon></ion-item-option>
+          <ion-item-option color="danger" (click)="push(itemc.idlistaprod, 'NÃO')"><ion-icon name="trash"></ion-icon></ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    
+  </div>
+</ion-content>
+<ion-footer *ngIf="segment == 'items'">
+  <div class="div-footer">
+    <div class="montante">
+      <b class="texto">Limite </b> 
+      <p class="valorm">{{montante | currency : 'BRL'}}</p>
+    </div>
+    <div class="total">
+      <b class="texto">Previsto: </b> 
+      <p class="{{totald<=montante?'valort-ok':'valort'}}">{{totald | currency : 'BRL'}}</p>
+    </div>
+  </div>
+</ion-footer>
+<ion-footer *ngIf="segment == 'carrinho'">
+  <div class="div-footer">
+    <div class="montante">
+      <b class="texto">Limite </b> 
+      <p class="valorm">{{montante | currency : 'BRL'}}</p>
+    </div>
+    <div class="total">
+      <b class="texto">Previsto: </b> 
+      <p class="{{totals<=montante?'valort-ok':'valort'}}">{{totals | currency : 'BRL'}}</p>
+    </div>
+  </div>
+</ion-footer>

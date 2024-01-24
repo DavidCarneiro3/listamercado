@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Minhas Listas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card *ngFor="let item of listas" (click)="goListaCompra(item.idlista)">
+    <ion-card-header>
+      <!-- <ion-card-subtitle></ion-card-subtitle> -->
+      <ion-card-title color="primary">{{item.titulo}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+     
+          <div class="progress">
+            <p class="checkeds">{{item.count_sim+'/'+item.count_total}}</p>
+            <round-progress 
+              [current]="item.count_sim" 
+              [max]="item.count_total"
+              [color]="'#f5c116'"
+              [background]="'#ccc'"
+              [radius]="50"
+              [stroke]="5"
+              [animation]="'easeInOutQuart'">
+            </round-progress>
+          </div>
+      <p>Agendado para: <span class="text">{{item.dt_evento}}</span></p>
+      <p>Criada em: <span class="text">{{item.dt_criacao}}</span></p>
+      <!-- <p>Valor Previsto: <span class="text">{{item.montante}}</span></p> -->
+    </ion-card-content>
+   
+  </ion-card>
+ 
+</ion-content>
